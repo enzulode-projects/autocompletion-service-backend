@@ -24,12 +24,19 @@ repositories {
 
 dependencies {
 //	Spring dependencies
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 //	Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+//	PostgreSQL driver
+	runtimeOnly 'org.postgresql:postgresql'
+
+//	Flyway migrations
+	implementation 'org.flywaydb:flyway-core'
 }
 
 test {
