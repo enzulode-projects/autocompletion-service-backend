@@ -1,2 +1,16 @@
 server:
+#   Embedded application server PROD configurations
     port: ${AUTOCOMPLETION_SERVICE_PORT}
+
+spring:
+#   Application data source PROD configuration
+    datasource:
+        url: "jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}"
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
+
+#   Flyway migrations PROD configuration
+    flyway:
+        url: "jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}"
+        user: ${DATABASE_USER}
+        password: ${DATABASE_PASSWORD}

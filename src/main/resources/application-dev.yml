@@ -1,2 +1,16 @@
 server:
+#   Embedded application server DEV configurations
     port: 8080
+
+spring:
+#   Application data source DEV configuration
+    datasource:
+        url: "jdbc:postgresql://localhost:5432/enzulode"
+        username: "enzulode"
+        password: "password"
+
+#   Flyway migrations DEV configuration
+    flyway:
+        url: "jdbc:postgresql://localhost:5432/enzulode"
+        user: "enzulode"
+        password: "password"
