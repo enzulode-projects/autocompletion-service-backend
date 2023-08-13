@@ -1,0 +1,2 @@
+server:
+    port: ${AUTOCOMPLETION_SERVICE_PORT}
