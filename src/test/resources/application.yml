@@ -1,0 +1,21 @@
+spring:
+#   Application general configuration
+    main:
+        web-application-type: servlet
+
+#   Application data source general configuration
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        dbcp2:
+            test-on-borrow: true
+            test-while-idle: true
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 30000
+            validation-query: SELECT 1
+            max-idle: 10
+            max-wait-millis: 8000
+
+#   Flyway migrations general configuration
+    flyway:
+        enabled: true
+        encoding: UTF-8
