@@ -5,9 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -141,10 +144,20 @@ public class SuggestionDAOImpl implements SuggestionDAO
 	{
 		try
 		{
-			return jdbcTemplate.update(
-					"INSERT INTO available_suggestions(suggestion_text) VALUES (?)",
-					suggestion.getSuggestionText()
-			) > 0;
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+
+			boolean result = jdbcTemplate.update((connection) -> {
+				PreparedStatement ps = connection
+						.prepareStatement("INSERT INTO available_suggestions(suggestion_text) VALUES (?)");
+
+				ps.setString(1, suggestion.getSuggestionText());
+				return ps;
+			}, keyHolder) > 0;
+
+			if (result)
+				suggestion.setId(keyHolder.getKeyAs(Long.class));
+
+			return result;
 		}
 		catch (DataAccessException e)
 		{
