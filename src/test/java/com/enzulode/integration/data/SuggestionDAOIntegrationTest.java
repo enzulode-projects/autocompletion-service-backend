@@ -7,8 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * SuggestionDAO integration tests.
@@ -49,6 +50,10 @@ public class SuggestionDAOIntegrationTest extends IntegrationTestBase
 				suggestionDAO.createSuggestion(suggestion),
 				"Should be inserted, but something went wrong"
 		);
+		assertNotNull(
+				suggestion.getId(),
+				"Should not be null, but something went wrong"
+		);
 	}
 
 	/**
@@ -72,11 +77,19 @@ public class SuggestionDAOIntegrationTest extends IntegrationTestBase
 	@DisplayName("Testing SuggestionDAO updateSuggestion() method: valid suggestion")
 	public void test_updateSuggestion_valid_suggestion_should_succeed()
 	{
-		Suggestion suggestion = new Suggestion(1L, "before");
+		Suggestion suggestion = new Suggestion();
+		suggestion.setSuggestionText("before");
 		suggestionDAO.createSuggestion(suggestion);
-		suggestion.setSuggestionText("after");
+		List<Suggestion> suggestions = suggestionDAO.findAll();
+		assertNotEquals(
+				suggestions.size(),
+				0,
+				"Suggestions should not be empty, but something went wrong"
+		);
+		Suggestion updatedOne = suggestions.get(0);
+		updatedOne.setSuggestionText("after text");
 		assertTrue(
-				suggestionDAO.updateSuggestion(suggestion),
+				suggestionDAO.updateSuggestion(updatedOne),
 				"Should be updated, but something went wrong"
 		);
 	}
