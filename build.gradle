@@ -37,6 +37,9 @@ dependencies {
 
 //	Flyway migrations
 	implementation 'org.flywaydb:flyway-core'
+
+//	Testcontainers dependencies
+	testImplementation "org.testcontainers:postgresql:1.18.3"
 }
 
 test {

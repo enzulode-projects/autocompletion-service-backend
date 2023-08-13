@@ -1,0 +1,16 @@
+server:
+#   Embedded application server TEST configurations
+    port: 8080
+
+spring:
+#   Application data source TEST configuration
+    datasource:
+        url: "jdbc:postgresql://localhost:5432/test"
+        username: "test_user"
+        password: "password"
+
+#   Flyway migrations TEST configuration
+    flyway:
+        url: "jdbc:postgresql://localhost:5432/test"
+        user: "test_user"
+        password: "password"
