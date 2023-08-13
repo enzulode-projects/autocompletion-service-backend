@@ -148,16 +148,20 @@ public class SuggestionDAOImpl implements SuggestionDAO
 
 			boolean result = jdbcTemplate.update((connection) -> {
 				PreparedStatement ps = connection
-						.prepareStatement("INSERT INTO available_suggestions(suggestion_text) VALUES (?)");
+						.prepareStatement(
+								"INSERT INTO available_suggestions(suggestion_text) VALUES (?)",
+								new String[] { "id" }
+						);
 
 				ps.setString(1, suggestion.getSuggestionText());
 				return ps;
 			}, keyHolder) > 0;
 
-			if (result)
-				suggestion.setId(keyHolder.getKeyAs(Long.class));
+			if (!result || keyHolder.getKey() == null)
+				return false;
 
-			return result;
+			suggestion.setId(keyHolder.getKey().longValue());
+			return true;
 		}
 		catch (DataAccessException e)
 		{
