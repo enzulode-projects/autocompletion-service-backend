@@ -1,0 +1,42 @@
+networks:
+    backend_database_network:
+        driver: bridge
+
+volumes:
+    autocompletion_service_db_volume: {}
+
+services:
+    development-database:
+        container_name: autocompletion_service_development_database
+        image: postgres
+        networks:
+            - backend_database_network
+        environment:
+            POSTGRES_DB: enzulode
+            POSTGRES_USER: enzulode
+            POSTGRES_PASSWORD: password
+            PGDATA: /data/postgres
+        volumes:
+            - autocompletion_service_db_volume:/data/postgres
+        restart: unless-stopped
+
+    autocompletion-service:
+        container_name: autocompletion_service
+        depends_on:
+            - development-database
+        image: enzulode/autocompletion-service
+        networks:
+            - backend_database_network
+        ports:
+            - "8080:8080"
+        environment:
+            AUTOCOMPLETION_SERVICE_PORT: 8080
+            DATABASE_HOST: development-database
+            DATABASE_PORT: 5432
+            DATABASE_NAME: enzulode
+            DATABASE_USERNAME: enzulode
+            DATABASE_PASSWORD: password
+        build:
+            context: .
+            args:
+                BACKEND_VERSION: 1.0.0
