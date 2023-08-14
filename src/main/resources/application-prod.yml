@@ -12,5 +12,5 @@ spring:
 #   Flyway migrations PROD configuration
     flyway:
         url: "jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}"
-        user: ${DATABASE_USERNAME}
-        password: ${DATABASE_PASSWORD}
+        user: "${DATABASE_USERNAME}"
+        password: "${DATABASE_PASSWORD}"
